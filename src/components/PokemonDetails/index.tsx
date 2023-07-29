@@ -16,6 +16,7 @@ type Pokemon = {
 const PokemonDetails = ({ input }: PokemonProps) => {
   const [pokemon, setPokemon] = useState<Pokemon>({ name: "", types: [] });
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [update, setUpdate] = useState(0);
 
   const fetchPokemonData = async () => {
     try {
@@ -38,7 +39,7 @@ const PokemonDetails = ({ input }: PokemonProps) => {
 
   useEffect(() => {
     fetchPokemonData();
-  }, [input]);
+  }, [input, update]);
 
   return (
     <div>
@@ -49,6 +50,7 @@ const PokemonDetails = ({ input }: PokemonProps) => {
         </>
       )}
       {isLoading && <p>Carregando pokemon...</p>}
+      <button onClick={() => setUpdate(update + 1)}>Atualizar</button>
     </div>
   );
 };
