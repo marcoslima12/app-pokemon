@@ -1,30 +1,48 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 
-export const PokemonDetails: React.FC = () => {
-  const [inputValue, setInputValue] = useState<number>();
+interface PokemonProps {
+  input: number;
+}
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    // Lógica para lidar com a submissão do formulário
-    console.log("Valor do input:", inputValue);
+type PokemonTypes = {
+  type: { name: string };
+};
+type Pokemon = {
+  name: string;
+  types: PokemonTypes[];
+};
+
+const PokemonDetails = ({ input }: PokemonProps) => {
+  const [pokemon, setPokemon] = useState<Pokemon>({ name: "", types: [] });
+
+  const fetchPokemonData = async () => {
+    try {
+      if (input) {
+        const response = await axios.get(
+          `https://pokeapi.co/api/v2/pokemon/${input}`
+        );
+        const { name, types } = response.data;
+        setPokemon({ name, types });
+      }
+    } catch (error) {
+      // Tratar erros, por exemplo, exibir uma mensagem de erro na tela
+      console.error("Erro ao buscar o Pokémon:", error);
+    }
   };
 
-  useEffect(() => {}, [inputValue]);
+  useEffect(() => {
+    fetchPokemonData();
+  }, [input]);
 
   return (
     <div>
-      <h1>Formulário Simples</h1>
-      <form onSubmit={handleSubmit}>
-        <label>
-          Digite algo:
-          <input
-            type="number"
-            value={inputValue}
-            onChange={(e) => setInputValue(Number(e.target.value))}
-          />
-        </label>
-        <button type="submit">Enviar</button>
-      </form>
+      {pokemon && (
+        <>
+          <p>{pokemon.name}</p>
+          <p>{pokemon.types[0]?.type.name || "typo"}</p>
+        </>
+      )}
     </div>
   );
 };
