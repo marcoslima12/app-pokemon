@@ -15,6 +15,7 @@ type Pokemon = {
 
 const PokemonDetails = ({ input }: PokemonProps) => {
   const [pokemon, setPokemon] = useState<Pokemon>({ name: "", types: [] });
+  const [img, setImg] = useState();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [update, setUpdate] = useState(0);
 
@@ -25,9 +26,13 @@ const PokemonDetails = ({ input }: PokemonProps) => {
         const response = await axios.get(
           `https://pokeapi.co/api/v2/pokemon/${input}`
         );
-
+        console.log(response.data.sprites)
+        //const responeImage = await axios.get(`https://assets.pokemon.com/assets/cms2/img/pokedex/full/249.png`)
+        //console.log(typeof responseImg);
         setIsLoading(false);
-        const { name, types } = response.data;
+        
+        const { name, types, sprites } = response.data;
+        setImg(sprites.front_default);
         setPokemon({ name, types });
       }
     } catch (error) {
@@ -45,12 +50,15 @@ const PokemonDetails = ({ input }: PokemonProps) => {
     <div>
       {pokemon && (
         <>
+        <img src={img} alt="" />
           <p>{pokemon.name}</p>
           <p>{pokemon.types[0]?.type.name || "typo"}</p>
         </>
       )}
       {isLoading && <p>Carregando pokemon...</p>}
-      <button onClick={() => setUpdate(update => update + 1)}>Atualizar</button>
+      <button onClick={() => setUpdate((update) => update + 1)}>
+        Atualizar
+      </button>
     </div>
   );
 };
