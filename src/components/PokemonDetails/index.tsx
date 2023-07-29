@@ -15,7 +15,7 @@ const PokemonDetails = () => {
   const [img, setImg] = useState();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [update, setUpdate] = useState(0);
-  const [input, setInput] = useState();
+  const [input, setInput] = useState<number>();
   const [bool, setBool] = useState(true);
 
   const handleInputChange = (event: { target: { value: any } }) => {
