@@ -50,7 +50,7 @@ const PokemonDetails = ({ input }: PokemonProps) => {
         </>
       )}
       {isLoading && <p>Carregando pokemon...</p>}
-      <button onClick={() => setUpdate(update + 1)}>Atualizar</button>
+      <button onClick={() => setUpdate(update => update + 1)}>Atualizar</button>
     </div>
   );
 };

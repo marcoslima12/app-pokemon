@@ -1,5 +1,6 @@
 import { useState } from "react";
 import PokemonDetails from "./components/PokemonDetails";
+import { PokemonList } from "./components/PokemonList";
 
 function App() {
   const [inputNumber, setInputNumber] = useState(0);
@@ -19,6 +20,7 @@ function App() {
         onChange={handleInputChange}
       />
       <PokemonDetails input={inputNumber} />
+      <PokemonList />
     </>
   );
 }
